@@ -10,6 +10,5 @@ def solution(prices):
         stack.append(i)
     while stack:
         lastIndex = stack.pop()
-        if result[lastIndex] < 0:
-            result[lastIndex] = len(prices) - 1 - lastIndex
+        result[lastIndex] = len(prices) - 1 - lastIndex
     return result

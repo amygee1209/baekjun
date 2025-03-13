@@ -8,7 +8,7 @@ def solution(sequence, k):
     
     left, right = 0, 0
     result = [left, right]
-    minLen = 9999999
+    minLen = float('inf')
     while right < len(sequence):
         intervalSum = subTotal[right+1] - subTotal[left]
         if intervalSum == k:

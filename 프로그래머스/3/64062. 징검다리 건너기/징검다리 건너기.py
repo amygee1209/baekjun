@@ -1,19 +1,21 @@
 from collections import deque
 
 def solution(stones, k):
-    maxQueue = deque()
-    maxNumOfPpl = float('inf')
+    intervalMax = deque()
+    minOfIntervalMax = float('inf')
     
-    for index, val in enumerate(stones):
-        while maxQueue and stones[maxQueue[-1]] < val:
-            maxQueue.pop()
-            
-        maxQueue.append(index)
+    for i, val in enumerate(stones):
+        while intervalMax and stones[intervalMax[-1]] < val:
+            intervalMax.pop()
         
-        if maxQueue[0] == (index-k):
-            maxQueue.popleft()
+        intervalMax.append(i)
         
-        if index >= (k-1):
-            maxNumOfPpl = min(maxNumOfPpl, stones[maxQueue[0]])
+        if intervalMax[0] <= (i-k):
+            intervalMax.popleft()
+        
+        if i >= (k-1):
+            minOfIntervalMax = min(minOfIntervalMax, stones[intervalMax[0]])
+        
+    return minOfIntervalMax
+        
     
-    return maxNumOfPpl

@@ -12,7 +12,7 @@ def solution(n, computers):
             stack = deque([curr])
 
             while stack:
-                node = stack.popleft()
+                node = stack.pop()
                 if node not in visited:
                     visited.add(node)
 

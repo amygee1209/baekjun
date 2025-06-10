@@ -1,24 +1,37 @@
-from collections import deque
+from collections import deque, defaultdict
 
-def solution(n, computers):
-    N = len(computers)
+def dfs(stack, visited, computers, computerNetworks):
     
-    visited = set()
+    while stack:
+        currentComputerIndex = stack.pop()
+        if visited[currentComputerIndex]: continue
+
+        visited[currentComputerIndex] = True
+
+        for neighborComputerIndex in  computerNetworks[currentComputerIndex]:
+            if visited[neighborComputerIndex]: continue
+
+            if computers[neighborComputerIndex][currentComputerIndex]:
+                stack.append(neighborComputerIndex)
+                    
+def solution(n, computers):
+    
+    computerNetworks = defaultdict(list)
+    
+    for currentComputerIndex, neighborComputers in enumerate(computers):
+        for neighbotComputerIndex, neighborComputerIsConnected in enumerate(neighborComputers):
+            if currentComputerIndex == neighbotComputerIndex: continue
+            
+            if neighborComputerIsConnected:
+                computerNetworks[currentComputerIndex].append(neighbotComputerIndex)
+    
+    visited = [False] * n
     cnt = 0
     
-    for curr in range(N):
-        if curr not in visited:
-            cnt += 1
-            stack = deque([curr])
-
-            while stack:
-                node = stack.pop()
-                if node not in visited:
-                    visited.add(node)
-
-                    for i, val in enumerate(computers[node]):
-                        if i != node and val == 1:
-                            stack.append(i)
+    for i in range(n):
+        if visited[i]: continue
+        cnt += 1
+        dfs([i], visited, computers, computerNetworks)
                             
     return cnt
                 

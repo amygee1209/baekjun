@@ -3,7 +3,7 @@ from collections import deque
 def dfs(tickets, startCity, currentPath, visited, targetPathLength, allPaths):
     
     if len(currentPath) == targetPathLength:
-        allPaths.append(currentPath)
+        allPaths.append(currentPath[:])
         return
         
     for index, path in enumerate(tickets):
@@ -13,7 +13,7 @@ def dfs(tickets, startCity, currentPath, visited, targetPathLength, allPaths):
             
             currentPath.append(end)
             visited[index] = True
-            dfs(tickets, end, currentPath[:], visited, targetPathLength, allPaths)
+            dfs(tickets, end, currentPath, visited, targetPathLength, allPaths)
             visited[index] = False
             currentPath.pop()
 
@@ -27,6 +27,7 @@ def solution(tickets):
 
     
     dfs(sorted(tickets), startCity, currentPath, visited, N+1, allPaths)
+    # print(allPaths)
     
     return allPaths[0]
             

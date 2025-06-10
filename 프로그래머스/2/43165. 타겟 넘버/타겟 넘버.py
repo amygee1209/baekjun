@@ -3,14 +3,20 @@ from collections import deque
 def solution(numbers, target):
     N = len(numbers)
     
-    def dfs(index, remainderTarget):
-        if index >= N-1:
+    stack = deque([(0, target)])
+    cnt = 0
+    
+    while stack:
+        node = stack.popleft()
+        index, remainderTarget = node
+        if index == N-1:
             if abs(remainderTarget) == numbers[index]:
-                return 1
-            else:
-                return 0
+                cnt += 1
+            continue
         
         currentNumber = numbers[index]
-        return dfs(index+1, remainderTarget-currentNumber) + dfs(index+1, remainderTarget+currentNumber)
+        stack.append((index+1, remainderTarget-currentNumber))
+        stack.append((index+1, remainderTarget+currentNumber))
+        
+    return cnt
     
-    return dfs(0, target)

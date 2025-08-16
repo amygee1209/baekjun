@@ -1,17 +1,11 @@
-import heapq
-
 def solution(routes):
-    routesDeque = [ (route[1], route[0]) for route in routes ]
-    heapq.heapify(routesDeque)
-    cnt = 0
-    while routesDeque:
-        # print(routesDeque)
-        routeOut, routeIn = heapq.heappop(routesDeque)
-        cameraAt = routeOut
-        cnt += 1
-        
-        for i in range(len(routesDeque)):
-            nextRouteOut, nextRouteIn = heapq.heappop(routesDeque)
-            if not (nextRouteIn <= cameraAt <= nextRouteOut):
-                heapq.heappush(routesDeque, (nextRouteOut, nextRouteIn))
-    return cnt
+    routes.sort(key=lambda x: x[1])
+    print(routes)
+    cameraCount = 1
+    lastCameraAt = routes[0][1]
+    for r in routes:
+        if r[0] <= lastCameraAt <= r[1]:
+            continue
+        lastCameraAt = r[1]
+        cameraCount += 1
+    return cameraCount
